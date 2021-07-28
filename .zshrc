@@ -125,15 +125,7 @@ echo "\e[90m"
 figlet -f modular mhrsntrk
 echo "\e[0m" 
 
-alias ls=colorls — light — sort-dirs — report’
-alias lc=colorls — tree — light
 alias myip='curl http://ipecho.net/plain; echo'
 alias reload='source ~/.zshrc'
-alias mac.show="defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder"
-alias mac.hide="defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder"
-alias delds="find . -name '.DS_Store' -type f -print -delete"
 alias dev="cd ~/developer"
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
