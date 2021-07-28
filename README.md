@@ -10,7 +10,7 @@ sudo apt-get install git
 Clone this repository into your home directory:
 ```bash
 cd ~
-git clone https://github.com/jasonheecs/ubuntu-server-setup.git
+git clone https://github.com/mhrsntrk/dotfiles.git
 ```
 
 Run the setup script
