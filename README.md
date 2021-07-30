@@ -1,6 +1,7 @@
 # dotfiles
 
 # Installation
+
 SSH into your server and install git if it is not installed:
 ```bash
 sudo apt-get update
@@ -28,6 +29,11 @@ Clone the repository again to install & copy remaining files.
 ```bash
 cd ~
 git clone https://github.com/mhrsntrk/dotfiles.git
+```
+
+Install zsh and set as default shell
+```bash
+sudo apt-get install zsh
 ```
 
 Run the user setup script

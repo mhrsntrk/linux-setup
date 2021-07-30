@@ -23,10 +23,9 @@ sudo cp ~/dotfiles/.tmux.conf .
 
 sudo cp ~/dotfiles/.gitconfig .
 
-sudo cp ~/dotfiles/Modular.flf /usr/share/figlet
+sudo cp ~/dotfiles/modular.flf /usr/share/figlet
 
 #Install zsh and oh-my-zsh and copy configuration file
-sudo apt-get install zsh
 
 sudo cp ~/dotfiles/.zshrc .
 
