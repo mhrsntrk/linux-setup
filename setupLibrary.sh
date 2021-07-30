@@ -28,7 +28,7 @@ function addSSHKey() {
     local username=${1}
     local sshKey=${2}
 
-    execAsUsr "${username}" "mkdir -p ~/.ssh; chmod 700 ~/.ssh; touch ~/.ssh/authorized_keys"
+    execAsUser "${username}" "mkdir -p ~/.ssh; chmod 700 ~/.ssh; touch ~/.ssh/authorized_keys"
     execAsUser "${username}" "echo \"${sshKey}\" | sudo tee -a ~/.ssh/authorized_keys"
     execAsUser "${username}" "chmod 600 ~/.ssh/authorized_keys"
 }
