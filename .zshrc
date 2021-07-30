@@ -99,21 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-killport() {
-    PID=$(lsof -ti ":$1")
-    if [ ! -z "$PID" ]; then
-        echo "PORT: $1"
-        echo "PID:  $PID"
-        kill -9 $PID
-        echo "OK!"
-    else
-        echo "No Process Found running Port $1"
-    fi
-}
-
 SPACESHIP_PROMPT_ADD_NEWLINE="true"
 SPACESHIP_CHAR_SYMBOL="\uf0e7"
-#SPACESHIP_CHAR_PREFIX="\uf296"
 SPACESHIP_CHAR_SUFFIX=("  ")
 SPACESHIP_CHAR_COLOR_SUCCESS="yellow"
 SPACESHIP_PROMPT_DEFAULT_PREFIX="$USER"
@@ -122,7 +109,7 @@ SPACESHIP_USER_SHOW="true"
 SPACESHIP_TIME_SHOW="true"
 
 echo "\e[90m"
-figlet -f modular mhrsntrk
+figlet -f Modular mhrsntrk
 echo "\e[0m" 
 
 alias myip='curl http://ipecho.net/plain; echo'
