@@ -109,7 +109,7 @@ SPACESHIP_USER_SHOW="true"
 SPACESHIP_TIME_SHOW="true"
 
 echo "\e[90m"
-figlet -f modular mhrsntrk
+figlet -f Modular mhrsntrk
 echo "\e[0m" 
 
 alias myip='curl http://ipecho.net/plain; echo'

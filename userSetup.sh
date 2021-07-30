@@ -23,7 +23,7 @@ sudo cp ~/dotfiles/.tmux.conf .
 
 sudo cp ~/dotfiles/.gitconfig .
 
-sudo cp ~/dotfiles/modular.flf /usr/share/figlet
+sudo cp ~/dotfiles/Modular.flf /usr/share/figlet
 
 #Install zsh and oh-my-zsh and copy configuration file
 
@@ -35,9 +35,9 @@ sudo cp ~/dotfiles/.zshrc .
 
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
-git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+git clone https://github.com/spaceship-prompt/spaceship-prompt.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt" --depth=1
 
-ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+ln -s "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship.zsh-theme"
 
 mkdir ~/developer
 
