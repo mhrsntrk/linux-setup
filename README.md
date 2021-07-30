@@ -10,14 +10,12 @@ sudo apt-get install git
 
 Clone this repository into your home directory:
 ```bash
-cd ~
 git clone https://github.com/mhrsntrk/dotfiles.git
 ```
 
 Run the setup script
 ```bash
-cd dotfiles
-bash setup.sh
+bash dotfiles/setup.sh
 ```
 
 When setup completed, switch created user.
@@ -29,11 +27,6 @@ Clone the repository again to install & copy remaining files.
 ```bash
 cd ~
 git clone https://github.com/mhrsntrk/dotfiles.git
-```
-
-Install zsh and set as default shell
-```bash
-sudo apt-get install zsh
 ```
 
 Run the user setup script
