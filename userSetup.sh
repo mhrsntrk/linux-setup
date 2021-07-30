@@ -32,4 +32,5 @@ cp /dotfiles/.gitconfig .
 
 cp /dotfiles/Modular.flf /usr/share/figlet
 
-
+# Reload zshrc file
+source .zshrc
