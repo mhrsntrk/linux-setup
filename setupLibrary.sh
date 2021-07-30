@@ -53,7 +53,7 @@ function changeSSHConfig() {
 
 # Setup the Uncomplicated Firewall
 function setupUfw() {
-    sudo ufw allow 80,443,3000,996,7946,4789,2377/tcp; ufw allow 7946,4789,2377/udp;
+    sudo ufw allow OpenSSH
     yes y | sudo ufw enable
 }
 
