@@ -2,20 +2,14 @@
 
 sudo apt-get update
 
-# Install neovim and plugin manager and copy configuration file
-sudo apt-get -y install neovim
-
-sudo cp -R ~/dotfiles/.config .
-
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
 #Install other tools
 sudo apt-get -y install bat
 
 sudo apt-get -y install fd-find
 
 sudo apt-get -y install figlet
+
+sudo apt-get -y install tmux
 
 # Copy other configuration files
 
