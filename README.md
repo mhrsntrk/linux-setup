@@ -1,6 +1,4 @@
-# dotfiles
-
-# Installation
+# Quick Linux Server Setup
 
 SSH into your server and install git if it is not installed:
 ```bash
