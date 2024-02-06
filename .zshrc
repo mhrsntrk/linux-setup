@@ -47,4 +47,4 @@ alias dsdel="find . -name '.DS_Store' -type f -print -delete"
 alias vim="nvim"
 alias cat="bat"
 
-source "$HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
+source "/Users/mhrsntrk/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
