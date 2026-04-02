@@ -12,6 +12,7 @@ main() {
 
   if [[ ! -f /etc/apt/sources.list.d/jdxcode-ubuntu-mise-noble.sources ]] && [[ ! -f /etc/apt/sources.list.d/jdxcode-ubuntu-mise-noble.list ]]; then
     sudo add-apt-repository -y ppa:jdxcode/mise
+    APT_UPDATED=false
   fi
 
   run_apt_update_once
