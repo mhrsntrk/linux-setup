@@ -31,13 +31,25 @@ repo_root() {
 }
 
 load_config() {
-  local root config_file
+  local root
   root="$(repo_root)"
-  config_file="${LINUX_SETUP_CONFIG:-${root}/config.sh}"
 
-  if [[ -f "$config_file" ]]; then
+  # Load base config first (defaults)
+  if [[ -f "${root}/config.sh" ]]; then
     # shellcheck source=./config.sh
-    source "$config_file"
+    source "${root}/config.sh"
+  fi
+
+  # Load local config overrides if present (gitignored)
+  if [[ -f "${root}/config.local.sh" ]]; then
+    # shellcheck source=./config.local.sh
+    source "${root}/config.local.sh"
+  fi
+
+  # Allow environment variable to specify custom config
+  if [[ -n "${LINUX_SETUP_CONFIG:-}" && -f "$LINUX_SETUP_CONFIG" ]]; then
+    # shellcheck source=./config.sh
+    source "$LINUX_SETUP_CONFIG"
   fi
 
   export SETUP_TIMEZONE="${SETUP_TIMEZONE:-Europe/Istanbul}"
