@@ -25,6 +25,7 @@ node = "latest"
 go = "latest"
 python = "latest"
 java = "latest"
+maven = "latest"
 
 [settings]
 experimental = true
