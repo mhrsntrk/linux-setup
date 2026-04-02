@@ -8,28 +8,54 @@ export LANG="en_US.UTF-8"
 # Add local bin to PATH (for mise and other user-installed tools)
 export PATH="$HOME/.local/bin:$PATH"
 
+# Activate mise if installed
 if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
 fi
 
+# Activate fzf if installed
+if command -v fzf >/dev/null 2>&1; then
+  eval "$(fzf --zsh 2>/dev/null || true)"
+fi
+
 ZSH_THEME="spaceship"
-plugins=(git zsh-autosuggestions sudo z)
+plugins=(zsh-autosuggestions sudo z)
 
 source "$ZSH/oh-my-zsh.sh"
 
 killport() {
-  local pid
-  pid="$(lsof -ti ":$1" || true)"
-  if [[ -n "$pid" ]]; then
-    printf 'PORT: %s\nPID: %s\n' "$1" "$pid"
-    kill -9 "$pid"
-  else
-    printf 'No process found on port %s\n' "$1"
+  if [ -z "$1" ]; then
+    echo "Usage: killport <port>"
+    return 1
   fi
+  local port="$1"
+  local pids
+  pids=$(lsof -ti :"$port" 2>/dev/null)
+  if [ -z "$pids" ]; then
+    echo "No process found running port $port"
+    return 0
+  fi
+  echo "Found PID(s) using port $port: $pids"
+  echo "$pids" | xargs kill 2>/dev/null
+  sleep 1
+  local pids_still
+  pids_still=$(lsof -ti :"$port" 2>/dev/null)
+  if [ -z "$pids_still" ]; then
+    echo "Process(es) terminated successfully!"
+    return 0
+  fi
+  echo "Force killing remaining PID(s): $pids_still"
+  echo "$pids_still" | xargs kill -9 2>/dev/null
+  echo "Done!"
+}
+
+tmuxon() {
+  tmux attach -t main 2>/dev/null && return
+  tmux new -s main
 }
 
 SPACESHIP_PROMPT_ADD_NEWLINE="true"
-SPACESHIP_CHAR_SYMBOL="⚡"
+SPACESHIP_CHAR_SYMBOL="\uf0e7"
 SPACESHIP_CHAR_SUFFIX=("  ")
 SPACESHIP_CHAR_COLOR_SUCCESS="yellow"
 SPACESHIP_PROMPT_DEFAULT_PREFIX="$USER"
@@ -43,11 +69,18 @@ alias gp='git pull'
 alias gf='git fetch'
 alias zshrc='$EDITOR ~/.zshrc'
 alias zshreload='source ~/.zshrc'
-alias myip='curl -4 ifconfig.me; printf "\\n"'
+alias myip='curl -4 ifconfig.me; printf "\n"'
 alias dev='cd ~/developer'
-alias copyssh='xclip -sel clip < ~/.ssh/id_ed25519.pub 2>/dev/null || wl-copy < ~/.ssh/id_ed25519.pub'
 alias vim='nvim'
+
+# eza aliases (if installed)
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --all --long --group-directories-first --icons --header --time-style long-iso --git --color-scale=size'
+  alias lt='eza --tree --level=2 --long'
+fi
 
 if [[ -f "$HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme" ]]; then
   source "$HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 fi
+
+export GPG_TTY=$(tty)
