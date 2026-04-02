@@ -317,6 +317,8 @@ setTimezone() {
 configureLocale() {
   local locale="en_US.UTF-8"
 
+  ensure_packages locales
+
   if ! grep -q "^$locale " /usr/share/i18n/SUPPORTED 2>/dev/null | grep -q "UTF-8"; then
     log "Generating locale $locale..."
     sudo locale-gen "$locale"
