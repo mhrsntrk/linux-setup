@@ -5,6 +5,9 @@ export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
+# Add local bin to PATH (for mise and other user-installed tools)
+export PATH="$HOME/.local/bin:$PATH"
+
 if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
 fi
