@@ -69,7 +69,7 @@ install_neovim() {
 install_opencode() {
   if ! command -v opencode &>/dev/null; then
     log 'Installing opencode...'
-    curl -fsSL https://raw.githubusercontent.com/opencode-ai/opencode/refs/heads/main/install | bash
+    curl -fsSL https://opencode.ai/install | bash
   fi
 }
 
