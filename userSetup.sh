@@ -45,10 +45,23 @@ copy_repo_assets() {
   cp -R "$SCRIPT_DIR/.config/opencode" "$HOME/.config/opencode"
 }
 
+install_lazygit() {
+  if ! command -v lazygit &>/dev/null; then
+    log 'Installing lazygit...'
+    LAZYGIT_VERSION=$(curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep -Po '"tag_name": *"v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit -D -t /usr/local/bin/
+    rm -f lazygit lazygit.tar.gz
+  fi
+}
+
 main() {
   load_config
-  ensure_packages bat fd-find figlet git neovim tmux zsh curl gpg pinentry-curses build-essential unzip fzf ripgrep eza jq htop tree lazygit gh
+  ensure_packages bat fd-find figlet git neovim tmux zsh curl gpg pinentry-curses build-essential unzip fzf ripgrep eza jq htop tree gh
   install -d -m 755 "$HOME/.local/share/figlet" "$HOME/developer" "$HOME/.config"
+
+  install_lazygit
 
   install_oh_my_zsh
   copy_repo_assets
