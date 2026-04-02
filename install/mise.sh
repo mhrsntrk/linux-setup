@@ -24,6 +24,7 @@ main() {
 node = "latest"
 go = "latest"
 python = "latest"
+java = "latest"
 
 [settings]
 experimental = true
