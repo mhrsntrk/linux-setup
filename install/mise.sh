@@ -28,8 +28,10 @@ maven = "latest"
 experimental = true
 EOF
 
+  "$HOME/.local/bin/mise" trust "$HOME/.config/mise/config.toml"
   "$HOME/.local/bin/mise" install
-  log 'mise and latest Node, Go, Python, Java, Maven are installed.'
+  "$HOME/.local/bin/mise" reshim
+  log 'mise and tools (Node, Go, Python, Java, Maven, opencode) are installed.'
 }
 
 main "$@"
