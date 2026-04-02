@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tickernelz/opencode-mem/main/config/schema.json",
+  "storagePath": "~/.opencode-mem/data",
+  "embeddingModel": "Xenova/nomic-embed-text-v1",
+  "webServerEnabled": true,
+  "webServerPort": 4747,
+  "autoCaptureEnabled": true,
+  "autoCaptureLanguage": "auto",
+  "opencodeProvider": "anthropic",
+  "opencodeModel": "claude-haiku-4-5-20251001",
+  "showAutoCaptureToasts": true,
+  "showUserProfileToasts": true,
+  "showErrorToasts": true,
+  "userProfileAnalysisInterval": 10,
+  "maxMemories": 100,
+  "compaction": {
+    "enabled": true,
+    "memoryLimit": 50
+  },
+  "chatMessage": {
+    "enabled": true,
+    "maxMemories": 3,
+    "excludeCurrentSession": true,
+    "injectOn": "first"
+  }
+}

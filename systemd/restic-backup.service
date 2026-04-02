@@ -1,0 +1,10 @@
+[Unit]
+Description=Run daily restic backup
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/restic/linux-setup.env
+ExecStart=/bin/sh -c '/usr/bin/restic -r "$RESTIC_REPOSITORY" backup $RESTIC_BACKUP_PATHS --exclude-file="$RESTIC_EXCLUDES_FILE"'
+ExecStartPost=/bin/sh -c '/usr/bin/restic -r "$RESTIC_REPOSITORY" forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 6'

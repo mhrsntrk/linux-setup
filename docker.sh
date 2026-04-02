@@ -1,24 +1,35 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+set -euo pipefail
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
-echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+source "${SCRIPT_DIR}/setupLibrary.sh"
 
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+main() {
+  load_config
+  ensure_packages ca-certificates curl gnupg lsb-release
+  sudo install -m 0755 -d /etc/apt/keyrings
 
-sudo docker run hello-world
+  if [[ ! -f /etc/apt/keyrings/docker.asc ]]; then
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.asc
+    sudo chmod a+r /etc/apt/keyrings/docker.asc
+  fi
 
-# Linux post-install
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo systemctl enable docker
+  printf '%s\n' 'deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable' | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+
+  run_apt_update_once
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  sudo systemctl enable --now docker
+
+  sudo groupadd -f docker
+  if [[ -n "$SETUP_USERNAME" ]] && user_exists "$SETUP_USERNAME"; then
+    sudo usermod -aG docker "$SETUP_USERNAME"
+  fi
+
+  sudo docker version >/dev/null
+  sudo docker compose version >/dev/null
+  log 'Docker Engine, Buildx, and Compose plugin are ready.'
+}
+
+main "$@"

@@ -1,8 +1,13 @@
 [user]
 	name = mhrsntrk
 	email = m@mhrsntrk.com
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
+[gpg]
+	program = gpg
+[pull]
+	rebase = false
+[init]
+	defaultBranch = main

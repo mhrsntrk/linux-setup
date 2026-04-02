@@ -1,1 +1,8 @@
 .DS_Store
+output.log
+.env
+config.local.sh
+*.asc
+*.gpg
+docs/
+.sisyphus/

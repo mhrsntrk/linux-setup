@@ -1,0 +1,11 @@
+.cache
+.local/share/Trash
+node_modules
+tmp
+temp
+Downloads
+*.tmp
+*.log
+datasets
+venv
+.venv

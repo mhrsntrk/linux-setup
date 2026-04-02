@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+export SETUP_USERNAME="${SETUP_USERNAME:-devops}"
+export SETUP_PASSWORD="${SETUP_PASSWORD:-change-me}"
+export SETUP_SSH_KEY="${SETUP_SSH_KEY:-ssh-ed25519 AAAA... replace-me}"
+export SETUP_TIMEZONE="${SETUP_TIMEZONE:-Europe/Istanbul}"
+
+export TAILSCALE_AUTH_KEY="${TAILSCALE_AUTH_KEY:-}"
+export TAILSCALE_HOSTNAME="${TAILSCALE_HOSTNAME:-beelink-dev}"
+export TAILSCALE_LOCKDOWN_SSH="${TAILSCALE_LOCKDOWN_SSH:-false}"
+
+export NONINTERACTIVE="${NONINTERACTIVE:-true}"
+export INSTALL_DOCKER="${INSTALL_DOCKER:-true}"
+export INSTALL_MISE="${INSTALL_MISE:-true}"
+export INSTALL_GPG="${INSTALL_GPG:-true}"
+export INSTALL_RESTIC="${INSTALL_RESTIC:-true}"
+export INSTALL_FAIL2BAN="${INSTALL_FAIL2BAN:-true}"
+export INSTALL_UNATTENDED_UPGRADES="${INSTALL_UNATTENDED_UPGRADES:-true}"
+
+export RESTIC_REPOSITORY="${RESTIC_REPOSITORY:-/var/backups/restic/repository}"
+export RESTIC_PASSWORD_FILE="${RESTIC_PASSWORD_FILE:-/etc/restic/password}"
+export RESTIC_EXCLUDES_FILE="${RESTIC_EXCLUDES_FILE:-/etc/restic/excludes.txt}"
+
+export GPG_REAL_NAME="${GPG_REAL_NAME:-mhrsntrk}"
+export GPG_EMAIL="${GPG_EMAIL:-m@mhrsntrk.com}"
+export GPG_PASSPHRASE="${GPG_PASSPHRASE:-}"

@@ -1,42 +1,71 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-sudo apt-get update
+set -euo pipefail
 
-#Install other tools
-sudo apt-get -y install bat
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
-sudo apt-get -y install fd-find
+source "${SCRIPT_DIR}/setupLibrary.sh"
 
-sudo apt-get -y install figlet
+clone_or_update() {
+  local repo_url=${1}
+  local destination=${2}
+  local extra_arg=${3:-}
 
-sudo apt-get -y install tmux
+  if [[ -d "$destination/.git" ]]; then
+    git -C "$destination" pull --ff-only
+  elif [[ -n "$extra_arg" ]]; then
+    git clone "$extra_arg" "$repo_url" "$destination"
+  else
+    git clone "$repo_url" "$destination"
+  fi
+}
 
-# Copy other configuration files
+install_oh_my_zsh() {
+  if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  fi
 
-sudo cp ~/dotfiles/.tmux.conf .
+  clone_or_update https://github.com/zsh-users/zsh-autosuggestions "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  clone_or_update https://github.com/spaceship-prompt/spaceship-prompt.git "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt" '--depth=1'
 
-sudo cp ~/dotfiles/.gitconfig .
+  if [[ ! -L "$HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme" ]]; then
+    ln -sf "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "$HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
+  fi
+}
 
-sudo cp ~/dotfiles/Modular.flf /usr/share/figlet
+copy_repo_assets() {
+  install -d -m 755 "$HOME/.config"
+  cp "$SCRIPT_DIR/.tmux.conf" "$HOME/.tmux.conf"
+  cp "$SCRIPT_DIR/.gitconfig" "$HOME/.gitconfig"
+  cp "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
+  cp "$SCRIPT_DIR/Modular.flf" "$HOME/.local/share/figlet/Modular.flf"
+  rm -rf "$HOME/.config/nvim"
+  cp -R "$SCRIPT_DIR/.config/nvim" "$HOME/.config/nvim"
+  rm -rf "$HOME/.config/opencode"
+  cp -R "$SCRIPT_DIR/.config/opencode" "$HOME/.config/opencode"
+}
 
-#Install zsh and oh-my-zsh and copy configuration file
+main() {
+  load_config
+  ensure_packages bat fd-find figlet git neovim tmux zsh curl gpg pinentry-curses build-essential unzip
+  install -d -m 755 "$HOME/.local/share/figlet" "$HOME/developer" "$HOME/.config"
 
-sudo apt-get -y install zsh
+  install_oh_my_zsh
+  copy_repo_assets
 
-n | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  if is_true "$INSTALL_MISE"; then
+    "${SCRIPT_DIR}/install/mise.sh"
+  fi
 
-sudo cp ~/dotfiles/.zshrc .
+  if is_true "$INSTALL_GPG"; then
+    "${SCRIPT_DIR}/install/gpg.sh"
+  fi
 
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  if [[ "${SHELL:-}" != "$(command -v zsh)" ]]; then
+    chsh -s "$(command -v zsh)"
+  fi
 
-git clone https://github.com/spaceship-prompt/spaceship-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt --depth=1
+  log 'User environment bootstrap completed.'
+}
 
-ln -s ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt/spaceship.zsh-theme ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship.zsh-theme
-
-mkdir ~/developer
-
-chsh -s $(which zsh)
-
-zsh
-
-source .zshrc
+main "$@"
