@@ -22,7 +22,6 @@ go = "latest"
 python = "latest"
 java = "latest"
 maven = "latest"
-"npm:opencode" = "latest"
 
 [settings]
 experimental = true

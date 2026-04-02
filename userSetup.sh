@@ -66,6 +66,13 @@ install_neovim() {
   fi
 }
 
+install_opencode() {
+  if ! command -v opencode &>/dev/null; then
+    log 'Installing opencode...'
+    curl -fsSL https://raw.githubusercontent.com/opencode-ai/opencode/refs/heads/main/install | bash
+  fi
+}
+
 main() {
   load_config
   ensure_packages bat fd-find figlet git tmux zsh curl gpg pinentry-curses build-essential unzip fzf ripgrep eza jq htop tree gh mosh
@@ -73,6 +80,7 @@ main() {
 
   install_neovim
   install_lazygit
+  install_opencode
 
   install_oh_my_zsh
   copy_repo_assets
