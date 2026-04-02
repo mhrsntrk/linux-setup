@@ -8,15 +8,11 @@ source "${SCRIPT_DIR}/../setupLibrary.sh"
 
 main() {
   load_config
-  ensure_packages gpg software-properties-common wget
+  ensure_packages curl
 
-  if [[ ! -f /etc/apt/sources.list.d/jdxcode-ubuntu-mise-noble.sources ]] && [[ ! -f /etc/apt/sources.list.d/jdxcode-ubuntu-mise-noble.list ]]; then
-    sudo add-apt-repository -y ppa:jdxcode/mise
+  if ! command -v mise &>/dev/null; then
+    curl https://mise.run | sh
   fi
-
-  APT_UPDATED=false
-  run_apt_update_once
-  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mise
 
   install -d -m 755 "$HOME/.config/mise"
   cat > "$HOME/.config/mise/config.toml" <<'EOF'
@@ -31,8 +27,8 @@ maven = "latest"
 experimental = true
 EOF
 
-mise install
-  log 'mise and latest Node, Go, Python runtimes are installed.'
+  "$HOME/.local/bin/mise" install
+  log 'mise and latest Node, Go, Python, Java, Maven are installed.'
 }
 
 main "$@"
