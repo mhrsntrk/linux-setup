@@ -258,20 +258,14 @@ optimizeNetworkInterface() {
   for iface in "${interfaces[@]}"; do
     log "Optimizing network interface: $iface"
     
-    # Disable power saving
+    # Disable power saving (most important for stability)
     sudo ethtool -s "$iface" wol d 2>/dev/null || true
     
-    # Increase ring buffer sizes for better throughput (fallback to 1024 if 4096 fails)
-    sudo ethtool -G "$iface" rx 4096 tx 4096 2>/dev/null || sudo ethtool -G "$iface" rx 1024 tx 1024 2>/dev/null || true
-    
-    # Enable all offloading features for better performance
-    sudo ethtool -K "$iface" tso on gso on gro on 2>/dev/null || true
-    
-    # Disable interrupt coalescing for lower latency (at cost of slightly higher CPU)
-    sudo ethtool -C "$iface" rx-usecs 0 tx-usecs 0 2>/dev/null || true
+    # Increase ring buffer sizes (fallback for different drivers)
+    sudo ethtool -G "$iface" rx 1024 tx 1024 2>/dev/null || true
   done
   
-  log 'Network interface optimization applied'
+  log 'Network interface optimization applied (WoL disabled, buffers increased)'
 }
 
 swap_exists() {
