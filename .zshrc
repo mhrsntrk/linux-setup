@@ -145,7 +145,12 @@ fi
 
 # fzf
 if command -v fzf &>/dev/null; then
-  eval "$(fzf --zsh)"
+  if fzf --zsh &>/dev/null 2>&1; then
+    eval "$(fzf --zsh)"
+  elif [[ -f /usr/share/doc/fzf/examples/completion.zsh ]]; then
+    source /usr/share/doc/fzf/examples/completion.zsh
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+  fi
 fi
 
 # mise (if installed)
