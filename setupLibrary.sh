@@ -216,6 +216,9 @@ setupUfw() {
   sudo ufw default allow outgoing
   sudo ufw allow OpenSSH
 
+  # Allow mosh (mobile shell) UDP ports
+  sudo ufw allow 60000:61000/udp
+
   if [[ -n "$TAILSCALE_AUTH_KEY" ]] || command -v tailscale >/dev/null 2>&1 || ip link show tailscale0 >/dev/null 2>&1; then
     sudo ufw allow in on tailscale0
   fi
