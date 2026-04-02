@@ -31,6 +31,7 @@ main() {
   setTimezone "$SETUP_TIMEZONE"
   configureLocale
   configureNTP
+  optimizeNetworkInterface
 
   if is_true "$INSTALL_UNATTENDED_UPGRADES"; then
     installUnattendedUpgrades

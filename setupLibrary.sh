@@ -243,6 +243,58 @@ remove_direct_ssh_access_if_verified() {
   sudo ufw --force delete allow 22/tcp || true
 }
 
+optimizeNetworkInterface() {
+  local iface="${1:-}"
+  
+  if [[ -z "$iface" ]]; then
+    iface=$(ip route | grep default | awk '{print $5}' | head -1)
+  fi
+  
+  if [[ -z "$iface" ]]; then
+    warn 'Could not detect network interface for optimization'
+    return 0
+  fi
+  
+  log "Optimizing network interface: $iface"
+  
+  # Disable power saving
+  sudo ethtool -s "$iface" wol d 2>/dev/null || true
+  
+  # Increase ring buffer sizes for better throughput
+  sudo ethtool -G "$iface" rx 4096 tx 4096 2>/dev/null || true
+  
+  # Enable all offloading features for better performance
+  sudo ethtool -K "$iface" tso on gso on gro on 2>/dev/null || true
+  
+  # Disable interrupt coalescing for lower latency (at cost of slightly higher CPU)
+  sudo ethtool -C "$iface" rx-usecs 0 tx-usecs 0 2>/dev/null || true
+  
+  # Create systemd service to persist settings after reboot
+  local service_file="/etc/systemd/system/network-optimize.service"
+  if [[ ! -f "$service_file" ]]; then
+    sudo tee "$service_file" > /dev/null <<EOF
+[Unit]
+Description=Network Interface Optimization
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/ethtool -s $iface wol d
+ExecStart=/sbin/ethtool -G $iface rx 4096 tx 4096
+ExecStart=/sbin/ethtool -K $iface tso on gso on gro on
+ExecStart=/sbin/ethtool -C $iface rx-usecs 0 tx-usecs 0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+    sudo systemctl daemon-reload
+    sudo systemctl enable network-optimize.service
+  fi
+  
+  log 'Network interface optimization applied and persisted'
+}
+
 swap_exists() {
   sudo swapon --show=NAME | grep -qx '/swapfile'
 }
