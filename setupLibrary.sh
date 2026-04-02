@@ -314,6 +314,16 @@ setTimezone() {
   fi
 }
 
+configureLocale() {
+  local locale="en_US.UTF-8"
+
+  if ! grep -q "^$locale " /usr/share/i18n/SUPPORTED 2>/dev/null | grep -q "UTF-8"; then
+    log "Generating locale $locale..."
+    sudo locale-gen "$locale"
+    sudo update-locale LANG="$locale" LC_ALL="$locale"
+  fi
+}
+
 configureNTP() {
   ensure_packages systemd-timesyncd
   sudo systemctl enable --now systemd-timesyncd

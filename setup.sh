@@ -29,6 +29,7 @@ main() {
   saveSwapSettings 10 50
 
   setTimezone "$SETUP_TIMEZONE"
+  configureLocale
   configureNTP
 
   if is_true "$INSTALL_UNATTENDED_UPGRADES"; then
