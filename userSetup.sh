@@ -56,11 +56,22 @@ install_lazygit() {
   fi
 }
 
+install_neovim() {
+  if ! command -v nvim &>/dev/null; then
+    log 'Installing Neovim from PPA...'
+    sudo add-apt-repository -y ppa:neovim-ppa/unstable
+    APT_UPDATED=false
+    run_apt_update_once
+    sudo apt install -y neovim
+  fi
+}
+
 main() {
   load_config
-  ensure_packages bat fd-find figlet git neovim tmux zsh curl gpg pinentry-curses build-essential unzip fzf ripgrep eza jq htop tree gh mosh
+  ensure_packages bat fd-find figlet git tmux zsh curl gpg pinentry-curses build-essential unzip fzf ripgrep eza jq htop tree gh mosh
   install -d -m 755 "$HOME/.local/share/figlet" "$HOME/developer" "$HOME/.config"
 
+  install_neovim
   install_lazygit
 
   install_oh_my_zsh
