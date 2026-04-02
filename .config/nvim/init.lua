@@ -3,7 +3,10 @@ vim.g.mapleader = " "
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
-if not vim.uv.fs_stat(lazypath) then
+-- Use vim.uv (0.10+) or fall back to vim.loop (0.9.x)
+local uv = vim.uv or vim.loop
+
+if not uv.fs_stat(lazypath) then
   local repo = "https://github.com/folke/lazy.nvim.git"
   vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
 end
