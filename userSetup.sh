@@ -47,7 +47,7 @@ copy_repo_assets() {
 
 main() {
   load_config
-  ensure_packages bat fd-find figlet git neovim tmux zsh curl gpg pinentry-curses build-essential unzip fzf ripgrep eza jq htop tree
+  ensure_packages bat fd-find figlet git neovim tmux zsh curl gpg pinentry-curses build-essential unzip fzf ripgrep eza jq htop tree lazygit gh
   install -d -m 755 "$HOME/.local/share/figlet" "$HOME/developer" "$HOME/.config"
 
   install_oh_my_zsh
