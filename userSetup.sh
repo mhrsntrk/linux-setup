@@ -26,6 +26,7 @@ install_oh_my_zsh() {
   fi
 
   clone_or_update https://github.com/zsh-users/zsh-autosuggestions "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  clone_or_update https://github.com/zsh-users/zsh-syntax-highlighting "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
   clone_or_update https://github.com/spaceship-prompt/spaceship-prompt.git "$HOME/.oh-my-zsh/custom/themes/spaceship-prompt" '--depth=1'
 
   if [[ ! -L "$HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme" ]]; then
