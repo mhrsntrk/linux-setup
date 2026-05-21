@@ -42,8 +42,6 @@ copy_repo_assets() {
   cp "$SCRIPT_DIR/Modular.flf" "$HOME/.local/share/figlet/Modular.flf"
   rm -rf "$HOME/.config/nvim"
   cp -R "$SCRIPT_DIR/.config/nvim" "$HOME/.config/nvim"
-  rm -rf "$HOME/.config/opencode"
-  cp -R "$SCRIPT_DIR/.config/opencode" "$HOME/.config/opencode"
 }
 
 install_lazygit() {

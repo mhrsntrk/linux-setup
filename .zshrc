@@ -101,7 +101,7 @@ killport() {
 
 # Attach to or create tmux session
 tmuxon() {
-  local session_name="01101101"
+  local session_name="01110011"
   tmux attach -t "$session_name" 2>/dev/null && return
   tmux new -s "$session_name"
 }
@@ -126,6 +126,7 @@ alias vim="nvim"
 alias dev="cd ~/developer"
 alias zshrc="$EDITOR ~/.zshrc"
 alias zshreload='source ~/.zshrc'
+
 
 # Networking
 alias myip='curl -s http://ipecho.net/plain; echo'
